@@ -6,7 +6,7 @@ export default function MainLayout() {
     <>
       <Header />
 
-      <main className="container">
+      <main className="container mt-5">
         <Outlet />
       </main>
     </>
