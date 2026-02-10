@@ -1,7 +1,9 @@
 import { NavLink } from "react-router-dom";
 import navLinks from "../data/navLinks";
+import { useSearch } from "../context/SearchContext";
 
 export default function Header() {
+  const { setSearch } = useSearch();
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -18,7 +20,10 @@ export default function Header() {
           >
             <span className="navbar-toggler-icon"></span>
           </button>
-          <div className="collapse navbar-collapse" id="navbarNav">
+          <div
+            className="collapse navbar-collapse d-flex justify-content-between"
+            id="navbarNav"
+          >
             <ul className="navbar-nav">
               {navLinks.map((link) => (
                 <li className="nav-item" key={link.path}>
@@ -32,6 +37,15 @@ export default function Header() {
                 </li>
               ))}
             </ul>
+            <form className="d-flex" role="search">
+              <input
+                onChange={(e) => setSearch(e.target.value)}
+                className="form-control me-2"
+                type="search"
+                placeholder="Search"
+                aria-label="Search"
+              />
+            </form>
           </div>
         </div>
       </nav>
