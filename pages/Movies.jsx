@@ -1,9 +1,10 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
 import Card from "../components/Card";
+import Loading from "../components/Loading";
 
 export default function Movies() {
-  const [movies, setMovies] = useState([]);
+  const [movies, setMovies] = useState(null);
   const [load, setLoad] = useState(true);
 
   useEffect(() => {
@@ -20,16 +21,24 @@ export default function Movies() {
 
   return (
     <>
-      {load && (
-        <div className="spinner-border" role="status">
-          <span className="visually-hidden">Loading...</span>
-        </div>
+      {load ? (
+        <Loading />
+      ) : (
+        <section className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-1">
+          {movies.map((m) => (
+            <div className="col" key={m.id}>
+              <Card
+                title={m.title}
+                abstract={m.abstract}
+                image={m.image}
+                id={m.id}
+                path={`/movies/${m.id}`}
+                linkDescription={"Mostra dettagli"}
+              />
+            </div>
+          ))}
+        </section>
       )}
-      <section className="row row-cols-2 row-cols-md-4 gap-5">
-        {movies.map((m) => (
-          <Card title={m.title} abstract={m.abstract} key={m.id} />
-        ))}
-      </section>
     </>
   );
 }
