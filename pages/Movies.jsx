@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import axios from "axios";
+import Card from "../components/Card";
 
 export default function Movies() {
   const [movies, setMovies] = useState([]);
@@ -19,22 +20,14 @@ export default function Movies() {
 
   return (
     <>
+      {load && (
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      )}
       <section className="row row-cols-2 row-cols-md-4 gap-5">
-        {load && (
-          <div className="spinner-border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </div>
-        )}
         {movies.map((m) => (
-          <div className="col" key={m.id}>
-            <div className="card">
-              <img src="..." className="card-img-top" alt="..." />
-              <div className="card-body">
-                <h5 className="card-title">{m.title}</h5>
-                <p className="card-text">{m.abstract}</p>
-              </div>
-            </div>
-          </div>
+          <Card title={m.title} abstract={m.abstract} key={m.id} />
         ))}
       </section>
     </>
