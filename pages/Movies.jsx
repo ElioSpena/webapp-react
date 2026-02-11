@@ -3,11 +3,13 @@ import axios from "axios";
 import Card from "../components/Card";
 import Loading from "../components/Loading";
 import { useSearch } from "../context/SearchContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Movies() {
   const [movies, setMovies] = useState([]);
   const [load, setLoad] = useState(true);
   const { search } = useSearch();
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -15,8 +17,10 @@ export default function Movies() {
       .then((res) => {
         setMovies(res.data);
       })
-      .catch((error) => {
-        console.log(error);
+      .catch((err) => {
+        if (err.status === 404) {
+          navigate("/not-found");
+        }
       })
       .finally(() => setLoad(false));
   }, []);

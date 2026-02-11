@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../components/Loading";
 import axios from "axios";
 import DetailCard from "../components/DetailCard";
@@ -8,6 +8,7 @@ export default function MovieDetails() {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
   const [load, setLoad] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
@@ -16,7 +17,9 @@ export default function MovieDetails() {
         setMovie(res.data);
       })
       .catch((err) => {
-        console.log(err);
+        if (err.status === 404) {
+          navigate("/movies");
+        }
       })
       .finally(() => setLoad(false));
   }, [id]);
