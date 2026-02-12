@@ -5,14 +5,14 @@ import axios from "axios";
 import DetailCard from "../components/DetailCard";
 
 export default function MovieDetails() {
-  const { id } = useParams();
+  const { slug } = useParams();
   const [movie, setMovie] = useState(null);
   const [load, setLoad] = useState(true);
   const navigate = useNavigate();
 
   useEffect(() => {
     axios
-      .get(`http://localhost:3000/movies/${id}`)
+      .get(`http://localhost:3000/movies/${slug}`)
       .then((res) => {
         setMovie(res.data);
       })
@@ -22,7 +22,7 @@ export default function MovieDetails() {
         }
       })
       .finally(() => setLoad(false));
-  }, [id]);
+  }, [slug]);
 
   return (
     <>

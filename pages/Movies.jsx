@@ -71,13 +71,12 @@ export default function Movies() {
           </form>
           <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-1 my-4">
             {movies.map((m) => (
-              <div className="col" key={m.id}>
+              <div className="col" key={m.slug}>
                 <Card
                   title={m.title}
                   abstract={m.abstract}
                   image={m.image}
-                  id={m.id}
-                  path={`/movies/${m.id}`}
+                  path={`/movies/${m.slug}`}
                   linkDescription={"Mostra dettagli"}
                 />
               </div>
