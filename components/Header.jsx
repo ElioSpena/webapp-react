@@ -1,9 +1,7 @@
 import { NavLink } from "react-router-dom";
 import navLinks from "../data/navLinks";
-import { useSearch } from "../context/SearchContext";
 
 export default function Header() {
-  const { setSearch } = useSearch();
   return (
     <>
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
@@ -37,15 +35,7 @@ export default function Header() {
                 </li>
               ))}
             </ul>
-            <form className="d-flex" role="search">
-              <input
-                onChange={(e) => setSearch(e.target.value)}
-                className="form-control me-2"
-                type="search"
-                placeholder="Search"
-                aria-label="Search"
-              />
-            </form>
+         
           </div>
         </div>
       </nav>
