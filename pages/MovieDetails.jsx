@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import Loading from "../components/Loading";
 import axios from "axios";
 import DetailCard from "../components/DetailCard";
+import ReviewForm from "../components/reviewForm";
 
 export default function MovieDetails() {
   const { slug } = useParams();
@@ -29,14 +30,17 @@ export default function MovieDetails() {
       {load ? (
         <Loading />
       ) : (
-        <DetailCard
-          image={movie.image}
-          title={movie.title}
-          director={movie.director}
-          genre={movie.genre}
-          abstract={movie.abstract}
-          updated_at={movie.updated_at}
-        />
+        <section>
+          <DetailCard
+            image={movie.image}
+            title={movie.title}
+            director={movie.director}
+            genre={movie.genre}
+            abstract={movie.abstract}
+            updated_at={movie.updated_at}
+          />
+          <ReviewForm />
+        </section>
       )}
     </>
   );
