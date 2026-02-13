@@ -1,3 +1,5 @@
+import ReviewsCard from "./ReviewsCard";
+
 export default function DetailCard({
   image,
   title,
@@ -5,6 +7,7 @@ export default function DetailCard({
   genre,
   abstract,
   updated_at,
+  reviews,
 }) {
   return (
     <div className="card mb-3">
@@ -22,6 +25,9 @@ export default function DetailCard({
               <small className="text-body-secondary">{updated_at}</small>
             </p>
           </div>
+          {reviews.map((r) => (
+            <ReviewsCard key={r.id} name={r.name} vote={r.vote} text={r.text} />
+          ))}
         </div>
       </div>
     </div>

@@ -1,6 +1,7 @@
 import { useState } from "react";
+import axios from "axios";
 
-export default function ReviewForm() {
+export default function ReviewForm({ movieId, updateMovie }) {
   const reviewData = {
     name: "",
     vote: 0,
@@ -10,7 +11,6 @@ export default function ReviewForm() {
   const [review, setReview] = useState(reviewData);
 
   function updateReview(event) {
-    event.preventDefault();
     const value = event.target.value;
     const key = event.target.name;
     setReview({
@@ -19,8 +19,19 @@ export default function ReviewForm() {
     });
   }
 
+  function handleSubmit(event) {
+    event.preventDefault();
+
+    axios
+      .post(`http://localhost:3000/movies/${movieId}/reviews`, review)
+      .then(() => {
+        (updateMovie(), setReview(reviewData));
+      })
+      .catch((err) => console.log(err));
+  }
+
   return (
-    <form action="">
+    <form onSubmit={handleSubmit} action="post">
       <div>
         <label htmlFor="name">Nome</label>
         <input

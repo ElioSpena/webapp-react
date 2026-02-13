@@ -12,6 +12,10 @@ export default function MovieDetails() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    getMovie();
+  }, [slug]);
+
+  function getMovie() {
     axios
       .get(`http://localhost:3000/movies/${slug}`)
       .then((res) => {
@@ -23,7 +27,7 @@ export default function MovieDetails() {
         }
       })
       .finally(() => setLoad(false));
-  }, [slug]);
+  }
 
   return (
     <>
@@ -38,8 +42,10 @@ export default function MovieDetails() {
             genre={movie.genre}
             abstract={movie.abstract}
             updated_at={movie.updated_at}
+            reviews={movie.reviews}
           />
-          <ReviewForm />
+
+          <ReviewForm movieId={movie.id} updateMovie={getMovie} />
         </section>
       )}
     </>

@@ -26,7 +26,6 @@ export default function Movies() {
       .finally(() => setLoad(false));
   }, []);
 
-  console.log(movies);
 
   function handleSearch(event) {
     event.preventDefault();
