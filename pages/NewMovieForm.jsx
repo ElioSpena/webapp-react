@@ -1,5 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
+import InputsFieldBlock from "../components/InputsFieldBlock";
+import movieFormFields from "../data/movieFormFields";
 
 export default function NewMovieForm() {
   const movieData = {
@@ -50,80 +52,22 @@ export default function NewMovieForm() {
       <h3>Inserisci un film</h3>
 
       <form onSubmit={handleSubmit}>
-        <div>
-          <label className="form-label" htmlFor="title">
-            Titolo
-          </label>
-          <input
-            required
-            className="form-control"
-            name="title"
-            value={newMovie.title}
+        {movieFormFields.map((field) => (
+          <InputsFieldBlock
+            key={field.name}
+            htmlFor={field.id}
+            labelTitle={field.labelTitle}
+            /*  error={error[field.name]} --->   eseguire validazione */
+            inputName={field.name}
+            inputValue={
+              field.type === "file" ? undefined : newMovie[field.name]
+            }
             onChange={updateMovie}
-            type="text"
-            id="title"
+            inputType={field.type}
+            required={field.required}
+            inputId={field.id}
           />
-        </div>
-
-        <div>
-          <label className="form-label" htmlFor="director">
-            Regista
-          </label>
-          <input
-            required
-            className="form-control"
-            name="director"
-            value={newMovie.director}
-            onChange={updateMovie}
-            type="text"
-            id="director"
-          />
-        </div>
-
-        <div>
-          <label className="form-label" htmlFor="genre">
-            Genere
-          </label>
-          <input
-            required
-            className="form-control"
-            name="genre"
-            value={newMovie.genre}
-            onChange={updateMovie}
-            type="text"
-            id="genre"
-          />
-        </div>
-
-        <div>
-          <label className="form-label" htmlFor="image">
-            immagine
-          </label>
-          <input
-            required
-            className="form-control"
-            name="image"
-            onChange={updateMovie}
-            type="file"
-            id="image"
-          />
-        </div>
-
-        <div>
-          <label className="form-label" htmlFor="release-year">
-            anno di uscita
-          </label>
-          <input
-            required
-            className="form-control"
-            name="release_year"
-            value={newMovie.release_year}
-            onChange={updateMovie}
-            type="number"
-            id="release-year"
-          />
-        </div>
-
+        ))}
         <div>
           <label className="form-label" htmlFor="abstract">
             descrizione

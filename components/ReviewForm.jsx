@@ -1,6 +1,8 @@
 import { useState } from "react";
 import axios from "axios";
 import { validation } from "../utilities/validation";
+import reviewFormFields from "../data/reviewsFormFields";
+import InputsFieldBlock from "./InputsFieldBlock";
 
 export default function ReviewForm({ movieId, updateMovie }) {
   const reviewData = {
@@ -47,50 +49,21 @@ export default function ReviewForm({ movieId, updateMovie }) {
 
   return (
     <form onSubmit={handleSubmit}>
-      <div>
-        <label className="form-label" htmlFor="name">
-          Nome
-        </label>
-        <input
-          required
-          className={`form-control ${error.name ? "is-invalid" : ""}`}
-          name="name"
-          value={review.name}
+      {reviewFormFields.map((field) => (
+        <InputsFieldBlock
+          key={field.name}
+          htmlFor={field.id}
+          labelTitle={field.labelTitle}
+          error={error[field.name]}
+          inputName={field.name}
+          inputValue={review[field.name]}
           onChange={updateReview}
-          type="text"
-          id="name"
+          inputType={field.type}
+          required={field.required}
+          inputId={field.id}
         />
-        {error.name && <div className="invalid-feedback">{error.name}</div>}
-      </div>
-      <div>
-        <label className="form-label" htmlFor="vote">
-          Vote
-        </label>
-        <input
-          required
-          className={`form-control ${error.vote ? "is-invalid" : ""}`}
-          name="vote"
-          value={review.vote}
-          onChange={updateReview}
-          type="number"
-          id="vote"
-        />
-        {error.vote && <div className="invalid-feedback">{error.vote}</div>}
-      </div>
-      <div>
-        <label className="form-label" htmlFor="text">
-          Recensione
-        </label>
-        <textarea
-          required
-          className={`form-control ${error.text ? "is-invalid" : ""}`}
-          name="text"
-          value={review.text}
-          onChange={updateReview}
-          id="text"
-        />
-        {error.text && <div className="invalid-feedback">{error.text}</div>}
-      </div>
+      ))}
+
       <button className="btn btn-secondary" type="submit">
         Invia recensione
       </button>
