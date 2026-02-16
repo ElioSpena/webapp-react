@@ -6,7 +6,7 @@ export default function NewMovieForm() {
     title: "",
     director: "",
     genre: "",
-    image: "",
+    image: null,
     release_year: "",
     abstract: "",
   };
@@ -14,22 +14,33 @@ export default function NewMovieForm() {
   const [newMovie, setNewMovie] = useState(movieData);
 
   function updateMovie(event) {
-    const value = event.target.value;
     const key = event.target.name;
+    const type = event.target.type;
 
     setNewMovie({
       ...newMovie,
-      [key]: value,
+      [key]: type === "file" ? event.target.files[0] : event.target.value,
     });
   }
 
   function handleSubmit(event) {
     event.preventDefault();
+    const formData = new FormData();
 
-    axios.post("http://localhost:3000/movies", newMovie).then((res) => {
-      setNewMovie({ ...movieData });
-      console.log("film aggiunto", res);
-    });
+    for (const key in newMovie) {
+      const value = newMovie[key];
+      formData.append(key, value);
+    }
+
+    axios
+      .post("http://localhost:3000/movies", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      })
+      .then((res) => {
+        setNewMovie({ ...movieData });
+      });
 
     return;
   }
@@ -92,9 +103,8 @@ export default function NewMovieForm() {
             required
             className="form-control"
             name="image"
-            value={newMovie.image}
             onChange={updateMovie}
-            type="text"
+            type="file"
             id="image"
           />
         </div>
@@ -118,7 +128,7 @@ export default function NewMovieForm() {
           <label className="form-label" htmlFor="abstract">
             descrizione
           </label>
-          <input
+          <textarea
             required
             className="form-control"
             name="abstract"
