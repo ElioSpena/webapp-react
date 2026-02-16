@@ -1,6 +1,6 @@
 import { useState } from "react";
 import axios from "axios";
-import { validation } from "../utilities/validation";
+import { validateReview } from "../utilities/validation";
 import reviewFormFields from "../data/reviewsFormFields";
 import InputsFieldBlock from "./InputsFieldBlock";
 
@@ -27,7 +27,7 @@ export default function ReviewForm({ movieId, updateMovie }) {
   function handleSubmit(event) {
     event.preventDefault();
 
-    const templateErrors = validation(review);
+    const templateErrors = validateReview(review);
     let isNotValid = false;
 
     for (const key in templateErrors) {

@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import InputsFieldBlock from "../components/InputsFieldBlock";
 import movieFormFields from "../data/movieFormFields";
+import { validateMovie } from "../utilities/validation";
 
 export default function NewMovieForm() {
   const movieData = {
@@ -14,6 +15,7 @@ export default function NewMovieForm() {
   };
 
   const [newMovie, setNewMovie] = useState(movieData);
+  const [error, setError] = useState(movieData);
 
   function updateMovie(event) {
     const key = event.target.name;
@@ -34,6 +36,20 @@ export default function NewMovieForm() {
       formData.append(key, value);
     }
 
+    const templateErrors = validateMovie(newMovie);
+    let isNotValid = false;
+
+    for (const key in templateErrors) {
+      if (templateErrors[key] !== "") {
+        isNotValid = true;
+      }
+    }
+    if (isNotValid) {
+      setError(templateErrors);
+      return;
+    }
+    setError({ ...movieData });
+
     axios
       .post("http://localhost:3000/movies", formData, {
         headers: {
@@ -42,6 +58,7 @@ export default function NewMovieForm() {
       })
       .then((res) => {
         setNewMovie({ ...movieData });
+        alert("Film aggiunto con successo");
       });
 
     return;
@@ -57,7 +74,7 @@ export default function NewMovieForm() {
             key={field.name}
             htmlFor={field.id}
             labelTitle={field.labelTitle}
-            /*  error={error[field.name]} --->   eseguire validazione */
+            error={error[field.name]}
             inputName={field.name}
             inputValue={
               field.type === "file" ? undefined : newMovie[field.name]
@@ -70,18 +87,19 @@ export default function NewMovieForm() {
         ))}
         <div>
           <label className="form-label" htmlFor="abstract">
-            descrizione
+            Trama
           </label>
           <textarea
-            required
             className="form-control"
             name="abstract"
             value={newMovie.abstract}
             onChange={updateMovie}
-            type="text"
             id="abstract"
           />
         </div>
+        {error.abstract && (
+          <div className="invalid-feedback">{error.abstract}</div>
+        )}
 
         <button className="btn btn-primary" type="submit">
           Aggiungi film
