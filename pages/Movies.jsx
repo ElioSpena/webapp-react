@@ -26,7 +26,6 @@ export default function Movies() {
       .finally(() => setLoad(false));
   }, []);
 
-
   function handleSearch(event) {
     event.preventDefault();
     axios
@@ -68,6 +67,7 @@ export default function Movies() {
               Cerca
             </button>
           </form>
+
           <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-1 my-4">
             {movies.map((m) => (
               <div className="col" key={m.slug}>

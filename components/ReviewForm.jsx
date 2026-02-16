@@ -46,7 +46,7 @@ export default function ReviewForm({ movieId, updateMovie }) {
   }
 
   return (
-    <form onSubmit={handleSubmit} action="post">
+    <form onSubmit={handleSubmit}>
       <div>
         <label className="form-label" htmlFor="name">
           Nome
@@ -81,13 +81,12 @@ export default function ReviewForm({ movieId, updateMovie }) {
         <label className="form-label" htmlFor="text">
           Recensione
         </label>
-        <input
+        <textarea
           required
           className={`form-control ${error.text ? "is-invalid" : ""}`}
           name="text"
           value={review.text}
           onChange={updateReview}
-          type="textarea"
           id="text"
         />
         {error.text && <div className="invalid-feedback">{error.text}</div>}
