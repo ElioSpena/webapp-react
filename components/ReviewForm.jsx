@@ -28,12 +28,14 @@ export default function ReviewForm({ movieId, updateMovie }) {
     event.preventDefault();
 
     const templateErrors = validation(review);
+    let isNotValid = false;
 
-    if (
-      templateErrors.name !== "" ||
-      templateErrors.vote !== "" ||
-      templateErrors.text !== ""
-    ) {
+    for (const key in templateErrors) {
+      if (templateErrors[key] !== "") {
+        isNotValid = true;
+      }
+    }
+    if (isNotValid) {
       setError(templateErrors);
       return;
     }
